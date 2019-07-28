@@ -13,10 +13,20 @@ export class HeroesService {
   constructor(private http: HttpClient) { }
 
   crearHeroe(heroe: HeroeModel) {
+    // usamos el .json para usar el rest api de firebase, no es obligatorio
     return this.http.post(`${this.url}/heroes.json`, heroe)
       .pipe(map((resp: any) => {
         heroe.id = resp.name;
         return heroe;
       }));
+  }
+
+  actualizarHeroe(heroe: HeroeModel){
+    const heroeTemp = {
+      ...heroe
+    };
+    delete heroeTemp.id; // para que en firebase no se guarde dentro registro heroe un campo id
+    // ya que el id es el nodo segun la estructura de firebase
+    return this.http.put(`${this.url}/heroes/${heroe.id}.json`, heroeTemp);
   }
 }
