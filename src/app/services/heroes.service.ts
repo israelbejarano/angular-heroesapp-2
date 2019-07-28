@@ -21,13 +21,17 @@ export class HeroesService {
       }));
   }
 
-  actualizarHeroe(heroe: HeroeModel){
+  actualizarHeroe(heroe: HeroeModel) {
     const heroeTemp = {
       ...heroe
     };
     delete heroeTemp.id; // para que en firebase no se guarde dentro registro heroe un campo id
     // ya que el id es el nodo segun la estructura de firebase
     return this.http.put(`${this.url}/heroes/${heroe.id}.json`, heroeTemp);
+  }
+
+  getHeroe(id: string) {
+    return this.http.get(`${this.url}/heroes/${id}.json`);
   }
 
   getHeroes() {
